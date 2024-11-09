@@ -1,1 +1,3 @@
- sudo npm install    
+TO INSTALL
+
+sudo npm install    
