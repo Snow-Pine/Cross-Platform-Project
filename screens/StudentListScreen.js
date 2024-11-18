@@ -39,7 +39,7 @@ export default StudentListScreen = ({navigation}) => {
         try{
             //try to get data from firestore
             //identify the collection to retrieve documents from using collection reference
-            const collectionRef = collection(db, 'students');
+            const collectionRef = collection(db, 'books');
 
             //get the querySnapshot to retrieve all docuemnts from the collection
             const querySnapshot = await getDocs(collectionRef);
@@ -74,7 +74,7 @@ export default StudentListScreen = ({navigation}) => {
         try {           
             //create a query represents the search criteria and search the database
             //identify the collection to retrieve documents from using collection reference
-            const collectionRef = collection(db, 'students');
+            const collectionRef = collection(db, 'books');
 
             //form a query
             //(collection_reference, where(field_name, comparison_operator, value_to_compare))

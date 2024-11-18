@@ -29,7 +29,7 @@ const StudentDetailScreen = ({navigation, route}) => {
             console.log(`trying to delete document : ${selectedDocumentID}`);
             //alternative, ask for confirmation
             //reference specific document from database to be deleted using doc ID
-            const docToDelete = doc(db, 'students', selectedDocumentID);
+            const docToDelete = doc(db, 'books', selectedDocumentID);
             await deleteDoc(docToDelete);
 
                 Alert.alert(`Delete`, `Student ${deleteDoc.name} deleted`);
@@ -46,7 +46,7 @@ const StudentDetailScreen = ({navigation, route}) => {
             console.log(`document to update : ${selectedDocumentID}`);
 
             //reference specific document from database to be updated using doc ID
-            const docToUpdate = doc(db, 'students', selectedDocumentID);
+            const docToUpdate = doc(db, 'books', selectedDocumentID);
             const updatedStudent = {
                 name: nameFromUI,
                 gpa: parseFloat(gpaFromUI),

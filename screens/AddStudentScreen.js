@@ -32,7 +32,7 @@ const AddStudentScreen = () => {
             console.log(`Trying to add document.`);
 
             //identify the collection to store document using collection reference
-            const collectionRef = collection(db, 'students');
+            const collectionRef = collection(db, 'books');
 
             //add the document using the collection reference using addDoc
             //addDoc(reference_to_collection, object_to_add_as_document)
