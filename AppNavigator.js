@@ -1,7 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import AddTaskScreen from './screens/AddTaskScreen';
 import EditTaskScreen from './screens/EditTaskScreen';
@@ -21,7 +20,7 @@ const AppNavigator = () => {
         />
         <Stack.Screen 
           name="AddTask" 
-          component={AddTaskScreen} 
+          component={AddTaskScreen}        
           options={{ title: 'Add New Task' }}
         />
         <Stack.Screen 
