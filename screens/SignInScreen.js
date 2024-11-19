@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, Alert, TouchableOpacity} from "react-native";
 import { CommonActions } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { auth } from '../config/firebaseconfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -48,7 +49,7 @@ const SignInScreen = ( {navigation, route} ) => {
         <View>
 
             <TextInput 
-                style={styles.inputStyle}
+                style={styles.inputEmailStyle}
                 placeholder="Enter Email Address"
                 textContentType="emailAddress"
                 autoCapitalize="none"
@@ -58,9 +59,9 @@ const SignInScreen = ( {navigation, route} ) => {
             />
 
             <TextInput 
-                style={styles.inputStyle}
+                style={styles.inputPassStyle}
                 placeholder="Enter Password"
-                textContentType="password"
+                textContentType="password"    //onPress={onSignInClicked}
                 autoCapitalize="none"
                 returnKeyType="done"
                 secureTextEntry={true}
@@ -68,39 +69,76 @@ const SignInScreen = ( {navigation, route} ) => {
                 onChangeText={setPassword}
             />
 
-            <Pressable style={styles.buttonStyle} onPress={onSignInClicked}>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={onSignInClicked}
+            >
+                <Icon name="sign-in" size={20} color="#fff" />
                 <Text style={styles.buttonTextStyle}>Login</Text>
-            </Pressable>
 
-            <Pressable  onPress={onSignUpClicked}>
-                <Text style={ {color: 'blue'} }>Not registered yet? Create Account.</Text>
-            </Pressable>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.signUpButton}
+                onPress={onSignUpClicked}
+            >
+                <Icon name="user-plus" size={20} color="#fff" />
+                <Text style={styles.signUpButtonText}>Sign Up</Text>
+            </TouchableOpacity>
             
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    inputStyle : {
+    inputPassStyle : {
         height: 50,
         margin: 10,
         padding: 5,
-        borderColor: 'aquamarine',
-        borderWidth: 1,
-        fontSize: 20
+        borderColor: 'brown',
+        borderWidth: 2,
+        fontSize: 20,
+        marginTop: 23
     },
-    buttonStyle: {
+
+    inputEmailStyle : {
         height: 50,
         margin: 10,
         padding: 5,
-        backgroundColor:'aquamarine',
-        justifyContent:'center',
-        alignItems:'center',
+        borderColor: 'brown',
+        borderWidth: 2,
+        fontSize: 20,
+        marginTop: 230
+    },
+
+    buttonStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'brown',
+        padding: 10,
+        margin: 10,
+        borderRadius: 100,
     },
     buttonTextStyle: {
         fontWeight: 'bold',
-        color:'#000',
-        fontSize: 20
+        color:'#fff',
+        fontSize: 20,
+    },
+    signUpButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'brown',
+        padding: 10,
+        margin: 10,
+        borderRadius: 100,
+    },
+    signUpButtonText: {
+        fontWeight: 'bold',
+        color: '#fff',
+        fontSize: 18,
+        marginLeft: 10,
     }
 });
 

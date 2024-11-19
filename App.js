@@ -20,8 +20,8 @@ export default function App() {
         initialRouteName='SignIn' 
         screenOptions={ 
           { headerStyle: 
-            {backgroundColor: 'aquamarine'},
-            headerTintColor: '#000',
+            {backgroundColor: 'brown'},
+            headerTintColor: '#fff',
             headerTitleStyle: {fontWeight: 'bold'}
           }}
       >
