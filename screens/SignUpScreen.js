@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Alert} from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, TouchableOpacity} from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 //import neccessary firebase functions
 import { auth } from '../config/firebaseconfig';
@@ -36,7 +38,7 @@ const SignUpScreen = ({navigation, route}) => {
     return(
         <View>
             <TextInput 
-                style={styles.inputStyle}
+                style={styles.inputUserStyle}
                 placeholder="Enter Username"
                 textContentType="emailAddress"
                 autoCapitalize="none"
@@ -46,45 +48,63 @@ const SignUpScreen = ({navigation, route}) => {
             />
 
             <TextInput 
-                style={styles.inputStyle}
+                style={styles.inputPassStyle}
                 placeholder="Enter Password"
                 textContentType="password"
-                autoCapitalize="none"
+                autoCapitalize="none"   //onPres={onCreateAccountPressed}
                 returnKeyType="done"
                 secureTextEntry={true}
                 value={password}
                 onChangeText={setPassword}
             />
           
-            <Pressable style={styles.buttonStyle} onPress={onCreateAccountPressed}>
-                <Text style={styles.buttonTextStyle}>Create Account</Text>
-            </Pressable>
+    
+
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={onCreateAccountPressed}
+
+                >
+                  <Icon name="user-circle" size={30} color="white" />
+                  <Text style={styles.buttonTextStyle}>Create Account</Text>
+                </TouchableOpacity>
             
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    inputStyle : {
+    inputPassStyle : {
         height: 50,
         margin: 10,
         padding: 5,
-        borderColor: 'aquamarine',
-        borderWidth: 1,
-        fontSize: 20
+        borderColor: 'brown',
+        borderWidth: 2,
+        fontSize: 20,
+        marginTop: 23
+    },
+    inputUserStyle : {
+        height: 50,
+        margin: 10,
+        padding: 5,
+        borderColor: 'brown',
+        borderWidth: 2,
+        fontSize: 20,
+        marginTop: 230
     },
     buttonStyle: {
-        height: 50,
+        flexDirection: 'row',
         margin: 10,
-        padding: 5,
-        backgroundColor:'aquamarine',
+        padding: 10,
+        borderRadius: 100,
+        backgroundColor:'brown',
         justifyContent:'center',
         alignItems:'center',
     },
     buttonTextStyle: {
         fontWeight: 'bold',
-        color:'#000',
-        fontSize: 20
+        color:'#fff',
+        fontSize: 18
     }
 });
 
