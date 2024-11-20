@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
   const { setBooks } = route.params;
@@ -31,9 +32,18 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      <Button title="Books" onPress={() => navigation.navigate('Books')} />
-      <Button title="Review" onPress={() => navigation.navigate('Review')} />
-      <Button title="Cart" onPress={() => navigation.navigate('Cart')} />
+      <TouchableOpacity onPress={() => navigation.navigate('Books')}>
+        <Text style={styles.buttonText}>Books</Text>
+        <Icon name="book" size={24} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Review')}>
+        <Text style={styles.buttonText}>Review</Text>
+        <Icon name="comments" size={24} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+        <Text style={styles.buttonText}>Cart</Text>
+        <Icon name="shopping-cart" size={24} color="black" />
+      </TouchableOpacity>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.intro}>
         Where knowledge meets nourishment. At Brain Feed, we're not just a bookstore; we're the source of sustenance for your intellect. With a diverse selection of books spanning various genres, from insightful non-fiction to captivating fiction. We offer the perfect ingredients to fill your empty mind and enrich your brain. Our mission is to provide the nutrients your intellect craves, helping you grow and flourish through the power of books. Come, feed your brain and discover a world of boundless possibilities at Brain Feed.
@@ -70,6 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'blanchedalmond',
   },
   title: {
     fontSize: 24,
@@ -111,6 +122,12 @@ const styles = StyleSheet.create({
   },
   bookAuthor: {
     fontSize: 14,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    marginVertical: 10,
   },
 });
 
