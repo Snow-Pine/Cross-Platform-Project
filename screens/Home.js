@@ -32,7 +32,7 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.logoutButton}
         onPress={() => {
           setCart([]);
@@ -43,18 +43,15 @@ const Home = ({ route, navigation }) => {
       >
         <Icon name="logout" size={20} color="#fff" />
         <Text style={styles.logoutButtonText}>Log out</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={() => navigation.navigate('Books')}>
-        <Text style={styles.buttonText}>Books</Text>
-        <Icon name="book" size={24} color="black" />
+        <Text style={styles.buttonText}><Icon name="book" size={24} color="blue" /> Books</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Review')}>
-        <Text style={styles.buttonText}>Review</Text>
-        <Icon name="comments" size={24} color="black" />
+        <Text style={styles.buttonText}><Icon name="comments" size={24} color="blue" /> Review</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Text style={styles.buttonText}>Cart</Text>
-        <Icon name="shopping-cart" size={24} color="black" />
+        <Text style={styles.buttonText}><Icon name="shopping-cart" size={24} color="blue" /> Cart</Text>
       </TouchableOpacity>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.intro}>

@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useMemo } from 'react';
+import { Pressable, Text } from 'react-native';
 
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
@@ -20,11 +21,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='SignIn' 
-        screenOptions={{ 
+        screenOptions={({ navigation }) => ({
           headerStyle: { backgroundColor: 'brown' },
           headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: 'bold' }
-        }}
+          headerTitleStyle: { fontWeight: 'bold' },
+          headerRight: () => (
+            <Pressable onPress={() => navigation.navigate('SignIn')}>
+              <Text style={{ color: 'white', fontSize: 16 }}>Logout</Text>
+            </Pressable>
+          )
+        })}
       >
         <Stack.Screen component={SignInScreen} name="SignIn" />
         <Stack.Screen component={SignUpScreen} name="SignUp" />
