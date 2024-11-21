@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, Tou
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
-  const { setBooks } = route.params;
+  const { setBooks, setCart, setName, setNumberOfPeople } = route.params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +32,18 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => {
+          setCart([]);
+          setName('');
+          setNumberOfPeople(0);
+          navigation.navigate('SignIn');
+        }}
+      >
+        <Icon name="logout" size={20} color="#fff" />
+        <Text style={styles.logoutButtonText}>Log out</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Books')}>
         <Text style={styles.buttonText}>Books</Text>
         <Icon name="book" size={24} color="black" />
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'blanchedalmond',
+    backgroundColor: 'blanchedalmond', //blcanchedalmond
   },
   title: {
     fontSize: 24,
@@ -128,6 +140,20 @@ const styles = StyleSheet.create({
     color: 'blue',
     textAlign: 'center',
     marginVertical: 10,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'brown',
+    padding: 10,
+    margin: 10,
+    borderRadius: 100,
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 5,
   },
 });
 
