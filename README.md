@@ -1,3 +1,3 @@
 TO INSTALL
 
-sudo npm install    
+sudo npm install for macOS  
