@@ -19,7 +19,7 @@ const Books = ({ route }) => {
       <Text style={styles.title}>Books</Text>
       <FlatList
         data={allBooks.results.lists.flatMap(list => list.books)}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item, index) => `${item.title}-${index}`}
         renderItem={({ item, index }) => (
           <View style={styles.bookCard}>
             <Image source={{ uri: item.book_image }} style={styles.bookImage} />

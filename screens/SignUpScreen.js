@@ -22,7 +22,7 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput 
         style={styles.inputUserStyle}
         placeholder="Enter Email Address"
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     fontSize: 18
+  },
+  welcome: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 50
   }
 });
 

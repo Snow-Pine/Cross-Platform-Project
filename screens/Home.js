@@ -32,18 +32,9 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      {/* <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={() => {
-          setCart([]);
-          setName('');
-          setNumberOfPeople(0);
-          navigation.navigate('SignIn');
-        }}
-      >
-        <Icon name="logout" size={20} color="#fff" />
-        <Text style={styles.logoutButtonText}>Log out</Text>
-      </TouchableOpacity> */}
+      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: [] })}>
+        <Text style={styles.buttonText}><Icon name="user" size={24} color="blue" /> Profile</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Books')}>
         <Text style={styles.buttonText}><Icon name="book" size={24} color="blue" /> Books</Text>
       </TouchableOpacity>
@@ -69,7 +60,7 @@ const Home = ({ route, navigation }) => {
         <FlatList
           ListHeaderComponent={renderHeader}
           data={data.results.lists[0].books}
-          keyExtractor={(item) => item.title}
+          keyExtractor={(item, index) => `${item.title}-${index}`}
           renderItem={({ item }) => (
             <View style={styles.bookCard}>
               <Image source={{ uri: item.book_image }} style={styles.bookImage} />

@@ -9,6 +9,7 @@ import Home from './screens/Home';
 import Books from './screens/Books';
 import Review from './screens/Review';
 import Cart from './screens/Cart';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export default function App() {
         <Stack.Screen component={Books} name="Books" initialParams={{ prices, allBooks, cart, setCart }} />
         <Stack.Screen component={Review} name="Review" />
         <Stack.Screen component={Cart} name="Cart" initialParams={{ cart, setCart }} />
+        <Stack.Screen component={ProfileScreen} name="Profile" />
       </Stack.Navigator>
     </NavigationContainer>
   );

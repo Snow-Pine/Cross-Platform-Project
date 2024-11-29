@@ -32,7 +32,9 @@ const SignInScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome Back!</Text>
+      <Text style={styles.labelText}>Email</Text>
       <TextInput 
         style={styles.inputEmailStyle}
         placeholder="Enter Email Address"
@@ -40,8 +42,10 @@ const SignInScreen = ({ navigation }) => {
         autoCapitalize="none"
         returnKeyType="next"
         value={emailAddress}
+        
         onChangeText={setEmailAddress}
       />
+      <Text style={styles.labelText}>Password</Text>
       <TextInput 
         style={styles.inputPassStyle}
         placeholder="Enter Password"
@@ -60,6 +64,25 @@ const SignInScreen = ({ navigation }) => {
         <Icon name="user-plus" size={20} color="#fff" />
         <Text style={styles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
+      <View style={styles.orContainer}>
+        <View style={styles.line} />
+        <Text style={styles.orText}>Or</Text>
+        <View style={styles.line} />
+      </View>
+      <View style={styles.socialContainer}>
+        <TouchableOpacity style={[styles.iconButton, styles.googleButton]} onPress={() => {/* Handle Google sign-in */}}>
+          <Icon name="google" size={30} color="red" />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.iconButton, styles.twitterButton]} onPress={() => {/* Handle Twitter sign-in */}}>
+          <Icon name="twitter" size={30} color="skyblue" />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.iconButton, styles.appleButton]} onPress={() => {/* Handle Apple sign-in */}}>
+          <Icon name="apple" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.iconButton, styles.facebookButton]} onPress={() => {/* Handle Facebook sign-in */}}>
+          <Icon name="facebook" size={30} color="blue" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -81,7 +104,7 @@ const styles = StyleSheet.create({
     borderColor: 'brown',
     borderWidth: 2,
     fontSize: 20,
-    marginTop: 230
+    marginTop: 10, // Adjusted marginTop value
   },
   buttonStyle: {
     flexDirection: 'row',
@@ -111,7 +134,67 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     marginLeft: 10,
-  }
+  }, 
+  welcomeText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 100,
+  },
+  emailText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  labelText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 1,
+    marginLeft: 10,
+    marginBottom: 5,
+  },
+  orText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginHorizontal: 10,
+  },
+  orContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'black',
+  },
+  socialContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 20,
+  },
+  iconButton: {
+    borderWidth: 1,
+    borderRadius: 100,
+    padding: 10,
+  },
+  googleButton: {
+    borderColor: 'red',
+    backgroundColor: '#ffcccc', 
+  },
+  twitterButton: {
+    borderColor: 'skyblue',
+    backgroundColor: '#ccf2ff', 
+  },
+  appleButton: {
+    borderColor: 'black',
+    backgroundColor: '#e6e6e6', 
+  },
+  facebookButton: {
+    borderColor: 'blue',
+    backgroundColor: '#cce0ff',
+  },
 });
 
 export default SignInScreen;
