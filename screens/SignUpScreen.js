@@ -51,6 +51,10 @@ const SignUpScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'blanchedalmond',
+  },
   inputPassStyle: {
     height: 50,
     margin: 10,

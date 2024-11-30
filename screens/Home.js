@@ -32,7 +32,7 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: [] })}>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: route.params.cart })}>
         <Text style={styles.buttonText}><Icon name="user" size={24} color="blue" /> Profile</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Books')}>

@@ -2,21 +2,21 @@ import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 
 const ProfileScreen = ({ route }) => {
-  const { user, purchases } = route.params;
+  const { user = {}, purchases = [] } = route.params;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Overview</Text>
-      <Text style={styles.userInfo}>Email: {user.email}</Text>
+      <Text style={styles.userInfo}>Email: {user.email || 'N/A'}</Text>
       <Text style={styles.subtitle}>Purchases:</Text>
       <FlatList
         data={purchases}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.purchaseCard}>
             <Text style={styles.purchaseTitle}>Title: {item.title}</Text>
             <Text style={styles.purchasePrice}>Price: ${item.price}</Text>
-            <Text style={styles.purchaseDate}>Date: {item.date}</Text>
+            <Text style={styles.purchaseQuantity}>Quantity: {item.quantity}</Text>
           </View>
         )}
       />
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'blanchedalmond',
   },
   title: {
     fontSize: 24,
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
+    marginTop: 100
   },
   purchaseCard: {
     padding: 10,

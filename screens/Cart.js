@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Cart = ({ route }) => {
+const Cart = ({ route, navigation }) => {
   const { cart, setCart } = route.params;
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
@@ -39,6 +40,7 @@ const Cart = ({ route }) => {
 
   const handleCheckout = () => {
     setShowTotalPrice(true);
+    navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: cart });
   };
 
   return (
@@ -59,11 +61,17 @@ const Cart = ({ route }) => {
         )}
       />
       {!showTotalPrice && (
-        <Button title="Check out" onPress={handleCheckout} />
+        <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+          <Icon name="arrow-right" size={24} color="white" />
+          <Text style={styles.checkoutButtonText}>Check out</Text>
+        </TouchableOpacity>
       )}
       {showTotalPrice && (
         <View>
-          <Text style={styles.checkoutTitle}>Checkout</Text>
+          <TouchableOpacity onPress={handleCheckout}>
+            <Text style={styles.checkoutTitle}>Checkout</Text>
+            <Icon name="arrow-right" size={24} color="black" />
+          </TouchableOpacity>
           <Text>Thank you for shopping with us!</Text>
           <Text>Total Price: ${calculateTotalPrice()}</Text>
         </View>
@@ -76,6 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: 'blanchedalmond',
   },
   title: {
     fontSize: 24,
@@ -96,6 +105,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
+  },
+  checkoutButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  checkoutButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
