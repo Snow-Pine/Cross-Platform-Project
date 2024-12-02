@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   purchasePrice: {
     fontSize: 14,
   },
-  purchaseDate: {
+  purchaseQuantity: {
     fontSize: 14,
   },
 });

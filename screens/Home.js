@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, TouchableOpacity } from 'react-native';
+import { useEffect, useState, useRef } from 'react';
+import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, TouchableOpacity, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
   const { setBooks, setCart, setName, setNumberOfPeople, userEmail } = route.params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showSection, setShowSection] = useState(false);
+  const slideAnim = useRef(new Animated.Value(-200)).current; 
 
   const fetchLaunchFromAPI = async () => {
     try {
@@ -29,24 +31,45 @@ const Home = ({ route, navigation }) => {
     fetchLaunchFromAPI();
   }, []);
 
+  const toggleMenu = () => {
+    setShowSection(!showSection);
+    Animated.timing(slideAnim, {
+      toValue: showSection ? -200 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const renderHeader = () => (
     <View>
-      <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: userEmail }, purchases: route.params.cart })}>
-        <Text style={styles.profileText}><Icon name="user" size={24} color="brown" /> Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Books')}>
-        <Text style={styles.booksText}><Icon name="book" size={24} color="brown" /> Books</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Review')}>
-        <Text style={styles.reviewText}><Icon name="comments" size={24} color="brown" /> Review</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Text style={styles.cartText}><Icon name="shopping-cart" size={24} color="brown" /> Cart</Text>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <Text style={styles.title}>Welcome to Brain Feed!</Text>
+        <TouchableOpacity onPress={toggleMenu}>
+          <Icon name="bars" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+      {showSection && (
+        <Animated.View style={[styles.section, { transform: [{ translateX: slideAnim }] }]}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: userEmail }, purchases: route.params.cart })}>
+            <Text style={styles.profileText}><Icon name="user" size={24} color="brown" /> Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Books')}>
+            <Text style={styles.booksText}><Icon name="book" size={24} color="brown" /> Books</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Review')}>
+            <Text style={styles.reviewText}><Icon name="comments" size={24} color="brown" /> Review</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+            <Text style={styles.cartText}><Icon name="shopping-cart" size={24} color="brown" /> Cart</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.intro}>
-        Where knowledge meets nourishment. At Brain Feed, we're not just a bookstore; we're the source of sustenance for your intellect. With a diverse selection of books spanning various genres, from insightful non-fiction to captivating fiction. We offer the perfect ingredients to fill your empty mind and enrich your brain. Our mission is to provide the nutrients your intellect craves, helping you grow and flourish through the power of books. Come, feed your brain and discover a world of boundless possibilities at Brain Feed.
+        Where knowledge meets nourishment. At Brain Feed, we're not just a bookstore; we're the source of sustenance for your intellect. 
+        With a diverse selection of books spanning various genres, from insightful non-fiction to captivating fiction, we offer the perfect 
+        ingredients to fill your empty mind and enrich your brain. Our mission is to provide the nutrients your intellect craves, helping 
+        you grow and flourish through the power of books. Come, feed your brain and discover a world of boundless possibilities at Brain Feed.
       </Text>
       <Text style={styles.subtitle}>New Releases</Text>
     </View>
@@ -82,10 +105,16 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'blanchedalmond', //blcanchedalmond
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    flex: 1,
   },
   logo: {
     height: 100,
@@ -95,7 +124,9 @@ const styles = StyleSheet.create({
   intro: {
     fontSize: 16,
     textAlign: 'center',
-    marginVertical: 20,
+    lineHeight: 24,
+    marginVertical: 100,
+    fontWeight: 'bold'
   },
   subtitle: {
     fontSize: 20,
@@ -129,19 +160,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,
   },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'brown',
-    padding: 10,
-    margin: 10,
-    borderRadius: 100,
-  },
-  logoutButtonText: {
-    color: '#fff',
+  sectionToggle: {
     fontSize: 16,
-    marginLeft: 5,
+    color: 'black',
+    textAlign: 'center',
+    marginVertical: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'brown',
+    borderRadius: 900,
+  },
+  section: {
+    marginVertical: 10,
+    position: 'absolute',
+    right: 0,
+    top: 50,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
   profileText: {
     fontSize: 16,
