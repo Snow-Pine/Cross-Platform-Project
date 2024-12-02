@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, Tou
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
-  const { setBooks, setCart, setName, setNumberOfPeople } = route.params;
+  const { setBooks, setCart, setName, setNumberOfPeople, userEmail } = route.params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,17 +32,17 @@ const Home = ({ route, navigation }) => {
   const renderHeader = () => (
     <View>
       <Text style={styles.title}>Welcome to Brain Feed!</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: route.params.cart })}>
-        <Text style={styles.buttonText}><Icon name="user" size={24} color="blue" /> Profile</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: userEmail }, purchases: route.params.cart })}>
+        <Text style={styles.profileText}><Icon name="user" size={24} color="brown" /> Profile</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Books')}>
-        <Text style={styles.buttonText}><Icon name="book" size={24} color="blue" /> Books</Text>
+        <Text style={styles.booksText}><Icon name="book" size={24} color="brown" /> Books</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Review')}>
-        <Text style={styles.buttonText}><Icon name="comments" size={24} color="blue" /> Review</Text>
+        <Text style={styles.reviewText}><Icon name="comments" size={24} color="brown" /> Review</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Text style={styles.buttonText}><Icon name="shopping-cart" size={24} color="blue" /> Cart</Text>
+        <Text style={styles.cartText}><Icon name="shopping-cart" size={24} color="brown" /> Cart</Text>
       </TouchableOpacity>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.intro}>
@@ -59,7 +59,7 @@ const Home = ({ route, navigation }) => {
       ) : (
         <FlatList
           ListHeaderComponent={renderHeader}
-          data={data.results.lists[0].books}
+          data={data.results?.lists?.[0]?.books || []}
           keyExtractor={(item, index) => `${item.title}-${index}`}
           renderItem={({ item }) => (
             <View style={styles.bookCard}>
@@ -142,6 +142,41 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     marginLeft: 5,
+  },
+  profileText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    marginVertical: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'brown',
+    borderRadius: 900
+  },
+  booksText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    marginVertical: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'brown',
+    borderRadius: 900
+  },
+  reviewText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    marginVertical: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'brown',
+    borderRadius: 900,
+  },
+  cartText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    marginVertical: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: 'brown',
   },
 });
 

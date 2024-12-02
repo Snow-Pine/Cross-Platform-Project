@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Cart = ({ route, navigation }) => {
-  const { cart, setCart } = route.params;
+  const { cart, setCart, userEmail } = route.params;
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
   const handleAdd = (index) => {
@@ -39,8 +39,12 @@ const Cart = ({ route, navigation }) => {
   };
 
   const handleCheckout = () => {
+    if (cart.length === 0 || cart.every(item => item.quantity === 0)) {
+      Alert.alert('Cart is empty', 'Please add items to your cart before checking out.');
+      return;
+    }
     setShowTotalPrice(true);
-    navigation.navigate('Profile', { user: { email: 'user@example.com' }, purchases: cart });
+    navigation.navigate('Profile', { user: { email: userEmail }, purchases: cart });
   };
 
   return (
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   checkoutButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: 'brown',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

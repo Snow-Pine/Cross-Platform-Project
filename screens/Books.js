@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Books = ({ route }) => {
   const { prices, allBooks, cart, setCart } = route.params;
-  const [bookPrices, setBookPrices] = useState([]);
+  const [bookPrices, setBookPrices] = useState(prices.map(price => parseFloat(price).toFixed(2)));
 
   useEffect(() => {
-    const generatedPrices = allBooks.results.lists.flatMap(list => list.books).map(() => parseFloat(Math.random() * 60 + 10).toFixed(2));
-    setBookPrices(generatedPrices);
-  }, [allBooks]);
+    if (prices.length === 0) {
+      const generatedPrices = allBooks.results.lists.flatMap(list => list.books).map(() => parseFloat(Math.random() * 60 + 10).toFixed(2));
+      setBookPrices(generatedPrices);
+    }
+  }, [allBooks, prices]);
 
   const addToCart = (book, price) => {
     setCart([...cart, { title: book.title, price: price, quantity: 1 }]);
@@ -27,11 +30,16 @@ const Books = ({ route }) => {
               <Text style={styles.bookTitle}>{item.title}</Text>
               <Text style={styles.bookAuthor}>Author: {item.author}</Text>
               <Text style={styles.bookPrice}>Price: ${bookPrices[index]}</Text>
-              <Button
-                title={cart.some(cartItem => cartItem.title === item.title) ? "Added" : "Add to Cart"}
+              <TouchableOpacity
+                style={styles.addToCartButton}
                 onPress={() => addToCart(item, bookPrices[index])}
                 disabled={cart.some(cartItem => cartItem.title === item.title)}
-              />
+              >
+                <Text style={styles.addToCartButtonText}>
+                   <Icon name="cart-plus" size={24} color="white" />
+                  {cart.some(cartItem => cartItem.title === item.title) ? "Added" : "Add to Cart"}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -44,6 +52,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor : 'blanchedalmond',
   },
   title: {
     fontSize: 24,
@@ -74,6 +83,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  addToCartButton: {
+    backgroundColor: 'brown',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addToCartButtonText: {
+    color: 'white',
+    marginRight: 5,
+  },
 });
+
 
 export default Books;
