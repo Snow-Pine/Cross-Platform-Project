@@ -65,12 +65,10 @@ const Home = ({ route, navigation }) => {
         </Animated.View>
       )}
       <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.intro}>
-        Where knowledge meets nourishment. At Brain Feed, we're not just a bookstore; we're the source of sustenance for your intellect. 
-        With a diverse selection of books spanning various genres, from insightful non-fiction to captivating fiction, we offer the perfect 
-        ingredients to fill your empty mind and enrich your brain. Our mission is to provide the nutrients your intellect craves, helping 
-        you grow and flourish through the power of books. Come, feed your brain and discover a world of boundless possibilities at Brain Feed.
-      </Text>
+      {/* <Text style={styles.intro}>
+      Brain Feed is a bookstore that offers a diverse selection of books to nourish the intellect and inspire the imagination.
+      From thought-provoking non-fiction to captivating fiction, we provide the perfect resources to expand your mind and ignite your curiosity. Feed your brain and discover the power of knowledge at Brain Feed.
+      </Text> */}
       <Text style={styles.subtitle}>New Releases</Text>
     </View>
   );
@@ -132,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 10,
+    marginVertical: 70,
   },
   bookCard: {
     flexDirection: 'row',

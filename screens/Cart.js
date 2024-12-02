@@ -6,6 +6,8 @@ const Cart = ({ route, navigation }) => {
   const { cart, setCart, userEmail } = route.params;
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
+  
+
   const handleAdd = (index) => {
     const updatedCart = cart.map((item, idx) => {
       if (index === idx) {

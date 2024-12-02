@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable, Alert, TouchableOpacity } from "react-native";
+import { useState, useEffect, useRef } from "react";
+import { View, Text, TextInput, StyleSheet, Pressable, Alert, TouchableOpacity, Animated, Image } from "react-native";
 import { CommonActions } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -9,6 +9,34 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 const SignInScreen = ({ navigation }) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+  const bounceAnim = useRef(new Animated.Value(0)).current; // Initial value for bounce
+
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }
+    ).start();
+
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [fadeAnim, bounceAnim]);
 
   const onSignInClicked = async () => {
     try {
@@ -31,8 +59,17 @@ const SignInScreen = ({ navigation }) => {
     navigation.navigate("SignUp");
   };
 
+  const bounceInterpolate = bounceAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -30], // Adjust the bounce height as needed
+  });
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+      <Animated.Image
+        source={require('../assets/logo.png')}
+        style={[styles.logo, { transform: [{ translateY: bounceInterpolate }] }]}
+      />
       <Text style={styles.welcomeText}>Welcome Back!</Text>
       <Text style={styles.labelText}>Email</Text>
       <TextInput 
@@ -42,7 +79,6 @@ const SignInScreen = ({ navigation }) => {
         autoCapitalize="none"
         returnKeyType="next"
         value={emailAddress}
-        
         onChangeText={setEmailAddress}
       />
       <Text style={styles.labelText}>Password</Text>
@@ -64,26 +100,7 @@ const SignInScreen = ({ navigation }) => {
         <Icon name="user-plus" size={20} color="#fff" />
         <Text style={styles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <View style={styles.line} />
-        <Text style={styles.orText}>Or</Text>
-        <View style={styles.line} />
-      </View>
-      <View style={styles.socialContainer}>
-        <TouchableOpacity style={[styles.iconButton, styles.googleButton]} onPress={() => {/* Handle Google sign-in */}}>
-          <Icon name="google" size={30} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconButton, styles.twitterButton]} onPress={() => {/* Handle Twitter sign-in */}}>
-          <Icon name="twitter" size={30} color="skyblue" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconButton, styles.appleButton]} onPress={() => {/* Handle Apple sign-in */}}>
-          <Icon name="apple" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconButton, styles.facebookButton]} onPress={() => {/* Handle Facebook sign-in */}}>
-          <Icon name="facebook" size={30} color="blue" />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -91,6 +108,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'blanchedalmond',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    marginTop: 50,
   },
   inputPassStyle: {
     height: 50,
@@ -108,7 +131,7 @@ const styles = StyleSheet.create({
     borderColor: 'brown',
     borderWidth: 2,
     fontSize: 20,
-    marginTop: 10, // Adjusted marginTop value
+    marginTop: 10,
   },
   buttonStyle: {
     flexDirection: 'row',
@@ -123,6 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     fontSize: 20,
+    marginLeft: 10
   },
   signUpButton: {
     flexDirection: 'row',
@@ -143,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 100,
+    marginTop: 20,
   },
   emailText: {
     fontSize: 20,
@@ -156,48 +180,6 @@ const styles = StyleSheet.create({
     marginVertical: 1,
     marginLeft: 10,
     marginBottom: 5,
-  },
-  orText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginHorizontal: 10,
-  },
-  orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: 'black',
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 20,
-  },
-  iconButton: {
-    borderWidth: 1,
-    borderRadius: 100,
-    padding: 10,
-  },
-  googleButton: {
-    borderColor: 'red',
-    backgroundColor: '#ffcccc', 
-  },
-  twitterButton: {
-    borderColor: 'skyblue',
-    backgroundColor: '#ccf2ff', 
-  },
-  appleButton: {
-    borderColor: 'black',
-    backgroundColor: '#e6e6e6', 
-  },
-  facebookButton: {
-    borderColor: 'blue',
-    backgroundColor: '#cce0ff',
   },
 });
 
