@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Cart = ({ route, navigation }) => {
@@ -40,13 +41,17 @@ const Cart = ({ route, navigation }) => {
     return totalPrice.toFixed(2);
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (cart.length === 0 || cart.every(item => item.quantity === 0)) {
       Alert.alert('Cart is empty', 'Please add items to your cart before checking out.');
       return;
     }
     setShowTotalPrice(true);
-    navigation.navigate('Profile', { user: { email: userEmail }, purchases: cart });
+    try {
+      await AsyncStorage.setItem('purchases', JSON.stringify(cart));
+    } catch (error) {
+      console.log('Error saving purchases:', error);
+    }
   };
 
   return (
@@ -78,8 +83,8 @@ const Cart = ({ route, navigation }) => {
             <Text style={styles.checkoutTitle}>Checkout</Text>
             <Icon name="arrow-right" size={24} color="black" />
           </TouchableOpacity>
-          <Text>Thank you for shopping with us!</Text>
-          <Text>Total Price: ${calculateTotalPrice()}</Text>
+          <Text style={styles.checkoutTitle}>Thank you for shopping with us!</Text>
+          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}</Text>
         </View>
       )}
     </View>

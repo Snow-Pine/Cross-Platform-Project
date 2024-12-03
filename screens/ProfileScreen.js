@@ -1,16 +1,33 @@
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileScreen = ({ route }) => {
   const { user = {}, purchases = [] } = route.params;
+  const [emailAddress, setEmailAddress] = useState(user.email);
+  const [storedPurchases, setPurchases] = useState([]);
+
+  useEffect(() => {
+    const fetchPurchases = async () => {
+      try {
+        const storedPurchases = await AsyncStorage.getItem('purchases');
+        if (storedPurchases) {
+          setPurchases(JSON.parse(storedPurchases));
+        }
+      } catch (error) {
+        console.log('Error fetching purchases:', error);
+      }
+    };
+    fetchPurchases();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Overview</Text>
-      <Text style={styles.userInfo}>Email: {user.email || 'N/A'}</Text>
+      <Text style={styles.userInfo}>Email: { emailAddress }</Text>
       <Text style={styles.subtitle}>Purchases:</Text>
       <FlatList
-        data={purchases}
+        data={storedPurchases}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.purchaseCard}>
@@ -37,6 +54,7 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     fontSize: 18,
+    fontWeight: 'bold',
     marginVertical: 10,
   },
   subtitle: {
@@ -47,8 +65,8 @@ const styles = StyleSheet.create({
   },
   purchaseCard: {
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 3,
+    borderColor: 'brown',
     marginVertical: 5,
   },
   purchaseTitle: {
@@ -57,9 +75,11 @@ const styles = StyleSheet.create({
   },
   purchasePrice: {
     fontSize: 14,
+    fontWeight: 'bold',
   },
   purchaseQuantity: {
     fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 

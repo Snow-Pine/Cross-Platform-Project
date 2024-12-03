@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     alignSelf: 'center',
+    marginTop: 30,
   },
   intro: {
     fontSize: 16,
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 70,
+    marginTop: 130
   },
   bookCard: {
     flexDirection: 'row',
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderBottomWidth: 3,
     borderBottomColor: 'brown',
-    borderRadius: 900,
+    borderRadius: 900
   },
   cartText: {
     fontSize: 16,
@@ -215,6 +217,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderBottomWidth: 3,
     borderBottomColor: 'brown',
+    borderRadius: 900
   },
 });
 
