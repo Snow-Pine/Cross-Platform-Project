@@ -26,8 +26,12 @@ export default function App() {
           headerStyle: { backgroundColor: 'brown' },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
+          
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate('SignIn')}>
+            <Pressable onPress={() => navigation.reset({
+              index: 0,
+              routes: [{ name: 'SignIn' }],
+            })}>
               <Text style={{ color: 'white', fontSize: 16 }}>Logout</Text>
             </Pressable>
           )

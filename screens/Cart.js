@@ -79,10 +79,6 @@ const Cart = ({ route, navigation }) => {
       )}
       {showTotalPrice && (
         <View>
-          <TouchableOpacity onPress={handleCheckout}>
-            <Text style={styles.checkoutTitle}>Checkout</Text>
-            <Icon name="arrow-right" size={24} color="black" />
-          </TouchableOpacity>
           <Text style={styles.checkoutTitle}>Thank you for shopping with us!</Text>
           <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}</Text>
         </View>

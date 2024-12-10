@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Review = () => {
   const [title, setTitle] = useState('Becoming');
@@ -41,7 +42,10 @@ const Review = () => {
         value={inputTitle}
         onChangeText={setInputTitle}
       />
-      <Button title="Search Review" onPress={handleButtonClick} />
+      <TouchableOpacity style={styles.searchButtonContainer} onPress={handleButtonClick}>
+        <Text style={styles.searchButton}>Search</Text>
+        <Icon name="search" size={24} color="white" />
+      </TouchableOpacity>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -107,6 +111,20 @@ const styles = StyleSheet.create({
   },
   reviewByline: {
     fontSize: 14,
+  },
+  searchButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'brown',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  searchButton: {
+    color: 'white',
+    marginRight: 10,
+    fontSize: 20,
   },
 });
 
