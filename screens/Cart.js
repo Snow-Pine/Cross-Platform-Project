@@ -103,8 +103,8 @@ const Cart = ({ route, navigation }) => {
       )}
       {showTotalPrice && (
         <View>
-          <Text style={styles.checkoutTitle}>Thank you for shopping with us!</Text>
-          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}}</Text>
+          <Text style={styles.checkoutTitle}>Thank you for shopping with us!🌟</Text>
+          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}</Text>
         </View>
       )}
     </View>
