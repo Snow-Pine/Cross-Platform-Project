@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { db } from '../config/firebaseconfig';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const ProfileScreen = ({ route }) => {
   const { user = {}, purchases = [] } = route.params;
@@ -10,16 +11,19 @@ const ProfileScreen = ({ route }) => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const storedPurchases = await AsyncStorage.getItem('purchases');
-        if (storedPurchases) {
-          setPurchases(JSON.parse(storedPurchases));
-        }
+        const q = query(collection(db, 'purchases'), where('addedBy', '==', emailAddress));
+        const querySnapshot = await getDocs(q);
+        const purchasesList = [];
+        querySnapshot.forEach((doc) => {
+          purchasesList.push(doc.data());
+        });
+        setPurchases(purchasesList);
       } catch (error) {
         console.log('Error fetching purchases:', error);
       }
     };
     fetchPurchases();
-  }, []);
+  }, [emailAddress]);
 
   return (
     <View style={styles.container}>

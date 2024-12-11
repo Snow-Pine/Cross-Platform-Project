@@ -59,7 +59,7 @@ const Home = ({ route, navigation }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Review')}>
             <Text style={styles.reviewText}><Icon name="comments" size={24} color="brown" /> Review</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart',{ user: { email: userEmail }})}>
             <Text style={styles.cartText}><Icon name="shopping-cart" size={24} color="brown" /> Cart</Text>
           </TouchableOpacity>
         </Animated.View>

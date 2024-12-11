@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { db } from '../config/firebaseconfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 const Cart = ({ route, navigation }) => {
   const { cart: initialCart, setCart: updateCart} = route.params;
+  const { user = {} } = route.params;
+  const [emailAddress, setEmailAddress] = useState(user.email);
   const [cart, setCart] = useState(initialCart);
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
@@ -59,6 +63,15 @@ const Cart = ({ route, navigation }) => {
     }
     setShowTotalPrice(true);
     try {
+      const purchasesCollection = collection(db, 'purchases');
+      const purchaseData = cart.map(item => ({
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity,
+        addedBy: emailAddress,
+        addedDate: new Date().toISOString()
+      }));
+      await Promise.all(purchaseData.map(data => addDoc(purchasesCollection, data)));
       await AsyncStorage.setItem('purchases', JSON.stringify(cart));
     } catch (error) {
       console.log('Error saving purchases:', error);
@@ -91,7 +104,7 @@ const Cart = ({ route, navigation }) => {
       {showTotalPrice && (
         <View>
           <Text style={styles.checkoutTitle}>Thank you for shopping with us!</Text>
-          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}</Text>
+          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}}</Text>
         </View>
       )}
     </View>
