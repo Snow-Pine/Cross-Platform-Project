@@ -69,6 +69,20 @@ const Home = ({ route, navigation }) => {
     </View>
   );
 
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <TouchableOpacity style={styles.seeAllButton} onPress={() => navigation.navigate('Books', { userEmail })}>
+        <Text style={styles.seeAllButtonText}>See All Books</Text>
+      </TouchableOpacity>
+      <Text style={styles.subtitle}>About us</Text>
+      <Text style={styles.intro}>
+      Brain Feed is a bookstore that offers a diverse selection of books to nourish the intellect and inspire the imagination.
+      From thought-provoking non-fiction to captivating fiction, we provide the perfect resources to expand your mind and ignite your curiosity. Feed your brain and discover the power of knowledge at Brain Feed.
+      </Text>
+      <Text style={styles.footerText}>© 2024 Brain Feed. All rights reserved.</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -87,11 +101,7 @@ const Home = ({ route, navigation }) => {
               </View>
             </View>
           )}
-          ListFooterComponent={
-            <TouchableOpacity style={styles.seeAllButton} onPress={() => navigation.navigate('Books', { userEmail })}>
-              <Text style={styles.seeAllButtonText}>See All Books</Text>
-            </TouchableOpacity>
-          }
+          ListFooterComponent={renderFooter}
         />
       )}
     </View>
@@ -126,7 +136,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 70,
-    marginTop: 130
   },
   bookCard: {
     flexDirection: 'row',
@@ -158,6 +167,15 @@ const styles = StyleSheet.create({
   seeAllButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  footer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  footerText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: 'gray',
   },
   section: {
     marginVertical: 10,
@@ -208,6 +226,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderBottomColor: 'brown',
     borderRadius: 900
+  },
+  intro: {
+    fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 24,
+    marginVertical: 100,
   },
 });
 
