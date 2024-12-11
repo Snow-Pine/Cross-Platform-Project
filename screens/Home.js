@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, Tou
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
-  const { setBooks, setCart, setName, setNumberOfPeople, userEmail } = route.params;
+  const { setBooks, userEmail } = route.params;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showSection, setShowSection] = useState(false);

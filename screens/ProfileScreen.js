@@ -25,7 +25,7 @@ const ProfileScreen = ({ route }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Profile Overview</Text>
       <Text style={styles.userInfo}>Email: { emailAddress }</Text>
-      <Text style={styles.subtitle}>Purchases:</Text>
+      <Text style={styles.subtitle}>Purchase History:</Text>
       <FlatList
         data={storedPurchases}
         keyExtractor={(item, index) => index.toString()}
