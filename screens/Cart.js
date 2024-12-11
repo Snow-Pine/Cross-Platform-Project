@@ -4,10 +4,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Cart = ({ route, navigation }) => {
-  const { cart, setCart, userEmail } = route.params;
+  const { cart: initialCart, setCart: updateCart} = route.params;
+  const [cart, setCart] = useState(initialCart);
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
-  
+  useEffect(() => {
+    const saveCart = async () => {
+      try {
+        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      } catch (error) {
+        console.log('Error saving cart:', error);
+      }
+    };
+    saveCart();
+    updateCart(cart);
+  }, [cart]);
 
   const handleAdd = (index) => {
     const updatedCart = cart.map((item, idx) => {

@@ -57,7 +57,7 @@ const SignUpScreen = ({ navigation }) => {
 
   const bounceInterpolate = bounceAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, -20], // Adjust the bounce height as needed
+    outputRange: [0, 75], // Adjust the bounce height as needed
   });
 
   return (
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 40,
   },
   inputPassStyle: {
     height: 50,
