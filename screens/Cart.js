@@ -6,9 +6,7 @@ import { db } from '../config/firebaseconfig';
 import { collection, addDoc } from 'firebase/firestore';
 
 const Cart = ({ route, navigation }) => {
-  const { cart: initialCart, setCart: updateCart} = route.params;
-  const { user = {} } = route.params;
-  const [emailAddress, setEmailAddress] = useState(user.email);
+  const { userEmail, cart: initialCart, setCart: updateCart} = route.params;
   const [cart, setCart] = useState(initialCart);
   const [showTotalPrice, setShowTotalPrice] = useState(false);
 
@@ -68,7 +66,7 @@ const Cart = ({ route, navigation }) => {
         title: item.title,
         price: item.price,
         quantity: item.quantity,
-        addedBy: emailAddress,
+        addedBy: userEmail,
         addedDate: new Date().toISOString()
       }));
       await Promise.all(purchaseData.map(data => addDoc(purchasesCollection, data)));

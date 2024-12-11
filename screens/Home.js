@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, Button, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({ route, navigation }) => {
@@ -50,25 +50,21 @@ const Home = ({ route, navigation }) => {
       </View>
       {showSection && (
         <Animated.View style={[styles.section, { transform: [{ translateX: slideAnim }] }]}>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile', { user: { email: userEmail }, purchases: route.params.cart })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile', { userEmail, purchases: route.params.cart })}>
             <Text style={styles.profileText}><Icon name="user" size={24} color="brown" /> Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Books')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Books', { userEmail })}>
             <Text style={styles.booksText}><Icon name="book" size={24} color="brown" /> Books</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Review')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Review', { userEmail })}>
             <Text style={styles.reviewText}><Icon name="comments" size={24} color="brown" /> Review</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart',{ user: { email: userEmail }})}>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart', { userEmail })}>
             <Text style={styles.cartText}><Icon name="shopping-cart" size={24} color="brown" /> Cart</Text>
           </TouchableOpacity>
         </Animated.View>
       )}
       <Image source={require('../assets/logo.png')} style={styles.logo} />
-      {/* <Text style={styles.intro}>
-      Brain Feed is a bookstore that offers a diverse selection of books to nourish the intellect and inspire the imagination.
-      From thought-provoking non-fiction to captivating fiction, we provide the perfect resources to expand your mind and ignite your curiosity. Feed your brain and discover the power of knowledge at Brain Feed.
-      </Text> */}
       <Text style={styles.subtitle}>New Releases</Text>
     </View>
   );
@@ -91,6 +87,11 @@ const Home = ({ route, navigation }) => {
               </View>
             </View>
           )}
+          ListFooterComponent={
+            <TouchableOpacity style={styles.seeAllButton} onPress={() => navigation.navigate('Books', { userEmail })}>
+              <Text style={styles.seeAllButtonText}>See All Books</Text>
+            </TouchableOpacity>
+          }
         />
       )}
     </View>
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'blanchedalmond', //blcanchedalmond
+    backgroundColor: 'blanchedalmond',
   },
   header: {
     flexDirection: 'row',
@@ -119,13 +120,6 @@ const styles = StyleSheet.create({
     width: 100,
     alignSelf: 'center',
     marginTop: 30,
-  },
-  intro: {
-    fontSize: 16,
-    textAlign: 'center',
-    lineHeight: 24,
-    marginVertical: 100,
-    fontWeight: 'bold'
   },
   subtitle: {
     fontSize: 20,
@@ -154,20 +148,16 @@ const styles = StyleSheet.create({
   bookAuthor: {
     fontSize: 14,
   },
-  buttonText: {
-    fontSize: 16,
-    color: 'blue',
-    textAlign: 'center',
-    marginVertical: 10,
+  seeAllButton: {
+    backgroundColor: 'brown',
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: 'center',
   },
-  sectionToggle: {
+  seeAllButtonText: {
+    color: 'white',
     fontSize: 16,
-    color: 'black',
-    textAlign: 'center',
-    marginVertical: 10,
-    borderBottomWidth: 3,
-    borderBottomColor: 'brown',
-    borderRadius: 900,
   },
   section: {
     marginVertical: 10,

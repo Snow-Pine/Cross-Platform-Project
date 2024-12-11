@@ -4,14 +4,13 @@ import { db } from '../config/firebaseconfig';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const ProfileScreen = ({ route }) => {
-  const { user = {}, purchases = [] } = route.params;
-  const [emailAddress, setEmailAddress] = useState(user.email);
+  const { userEmail } = route.params;
   const [storedPurchases, setPurchases] = useState([]);
 
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const q = query(collection(db, 'purchases'), where('addedBy', '==', emailAddress));
+        const q = query(collection(db, 'purchases'), where('addedBy', '==', userEmail));
         const querySnapshot = await getDocs(q);
         const purchasesList = [];
         querySnapshot.forEach((doc) => {
@@ -23,12 +22,12 @@ const ProfileScreen = ({ route }) => {
       }
     };
     fetchPurchases();
-  }, [emailAddress]);
+  }, [userEmail]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Overview</Text>
-      <Text style={styles.userInfo}>Email: { emailAddress }</Text>
+      <Text style={styles.userInfo}>Email: { userEmail }</Text>
       <Text style={styles.subtitle}>Purchase History:</Text>
       <FlatList
         data={storedPurchases}
