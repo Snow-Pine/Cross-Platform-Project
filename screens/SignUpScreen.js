@@ -9,8 +9,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 const SignUpScreen = ({ navigation }) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-  const bounceAnim = useRef(new Animated.Value(0)).current; // Initial value for bounce
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.timing(
@@ -57,7 +57,7 @@ const SignUpScreen = ({ navigation }) => {
 
   const bounceInterpolate = bounceAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 75], // Adjust the bounce height as needed
+    outputRange: [0, 75],
   });
 
   return (
