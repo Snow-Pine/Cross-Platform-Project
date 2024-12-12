@@ -98,7 +98,7 @@ const SignInScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.signUpButton} onPress={onSignUpClicked}>
         <Icon name="user-plus" size={20} color="#fff" />
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
+        <Text style={styles.signUpButtonText}>Don't have an account?  Sign Up!</Text>
       </TouchableOpacity>
     </Animated.View>
   );
