@@ -56,7 +56,6 @@ const Cart = ({ route, navigation }) => {
         addedBy: userEmail,
         addedDate: new Date().toISOString()
       }));
-      console.log('Purchase Data:', purchaseData); // Add this line for debugging
       await Promise.all(purchaseData.map(data => addDoc(purchasesCollection, data)));
     } catch (error) {
       console.log('Error saving purchases:', error);
@@ -111,10 +110,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
+    maxWidth: 300,
   },
   cartItemText: {
     fontSize: 16,
     marginHorizontal: 5,
+    alignItems: 'center',
   },
   checkoutTitle: {
     fontSize: 20,

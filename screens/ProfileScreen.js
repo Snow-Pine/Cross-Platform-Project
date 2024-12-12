@@ -37,6 +37,7 @@ const ProfileScreen = ({ route }) => {
             <Text style={styles.purchaseTitle}>Title: {item.title}</Text>
             <Text style={styles.purchasePrice}>Price: ${item.price}</Text>
             <Text style={styles.purchaseQuantity}>Quantity: {item.quantity}</Text>
+            <Text style={styles.purchaseQuantity}>Purchase Date: {new Date(item.addedDate).toLocaleDateString()}</Text>
           </View>
         )}
       />

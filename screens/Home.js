@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     lineHeight: 24,
-    marginVertical: 100,
+    marginBottom: 20,
   },
 });
 
