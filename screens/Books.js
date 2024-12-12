@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../redux/cartSlice';
 
 const Books = ({ route }) => {
   const { prices, allBooks, cart, setCart } = route.params;
   const [bookPrices, setBookPrices] = useState(prices.map(price => parseFloat(price).toFixed(2)));
   const [localCart, setLocalCart] = useState(cart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (prices.length === 0) {
@@ -14,10 +17,11 @@ const Books = ({ route }) => {
     }
   }, [allBooks, prices]);
 
-  const addToCart = (book, price) => {
+  const handleAddToCart = (book, price) => {
     const updatedCart = [...localCart, { title: book.title, price: price, quantity: 1 }];
     setLocalCart(updatedCart);
     setCart(updatedCart);
+    dispatch(addItem({ ...book, price }));
   };
 
   return (
@@ -35,7 +39,7 @@ const Books = ({ route }) => {
               <Text style={styles.bookPrice}>Price: ${bookPrices[index]}</Text>
               <TouchableOpacity
                 style={styles.addToCartButton}
-                onPress={() => addToCart(item, bookPrices[index])}
+                onPress={() => handleAddToCart(item, bookPrices[index])}
                 disabled={localCart.some(cartItem => cartItem.title === item.title)}
               >
                 <Text style={styles.addToCartButtonText}>

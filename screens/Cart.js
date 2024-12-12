@@ -1,45 +1,31 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCart, addItem, removeItem } from '../redux/cartSlice';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { db } from '../config/firebaseconfig';
 import { collection, addDoc } from 'firebase/firestore';
 
 const Cart = ({ route, navigation }) => {
-  const { userEmail, cart: initialCart, setCart: updateCart} = route.params;
-  const [cart, setCart] = useState(initialCart);
+  const { userEmail } = route.params;
+  const cart = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
   const [showTotalPrice, setShowTotalPrice] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const saveCart = async () => {
-      try {
-        await AsyncStorage.setItem('cart', JSON.stringify(cart));
-      } catch (error) {
-        console.log('Error saving cart:', error);
-      }
-    };
-    saveCart();
-    updateCart(cart);
+    dispatch(updateCart(cart));
+    setTotalPrice(calculateTotalPrice());
   }, [cart]);
 
   const handleAdd = (index) => {
-    const updatedCart = cart.map((item, idx) => {
-      if (index === idx) {
-        return { ...item, quantity: item.quantity + 1 };
-      }
-      return item;
-    });
-    setCart(updatedCart);
+    const item = cart[index];
+    dispatch(addItem(item));
   };
 
   const handleMinus = (index) => {
-    const updatedCart = cart.map((item, idx) => {
-      if (index === idx && item.quantity > 0) {
-        return { ...item, quantity: item.quantity - 1 };
-      }
-      return item;
-    });
-    setCart(updatedCart);
+    const item = cart[index];
+    dispatch(removeItem(item));
   };
 
   const calculateTotalPrice = () => {
@@ -47,7 +33,7 @@ const Cart = ({ route, navigation }) => {
     cart.forEach(item => {
       const price = parseFloat(item.price);
       const quantity = parseInt(item.quantity);
-      if (!isNaN(price) && !isNaN(quantity)) {
+      if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
         totalPrice += price * quantity;
       }
     });
@@ -55,22 +41,23 @@ const Cart = ({ route, navigation }) => {
   };
 
   const handleCheckout = async () => {
-    if (cart.length === 0 || cart.every(item => item.quantity === 0)) {
+    const validCartItems = cart.filter(item => item.title && item.price && item.quantity > 0);
+    if (validCartItems.length === 0) {
       Alert.alert('Cart is empty', 'Please add items to your cart before checking out.');
       return;
     }
     setShowTotalPrice(true);
     try {
       const purchasesCollection = collection(db, 'purchases');
-      const purchaseData = cart.map(item => ({
+      const purchaseData = validCartItems.map(item => ({
         title: item.title,
         price: item.price,
         quantity: item.quantity,
         addedBy: userEmail,
         addedDate: new Date().toISOString()
       }));
+      console.log('Purchase Data:', purchaseData); // Add this line for debugging
       await Promise.all(purchaseData.map(data => addDoc(purchasesCollection, data)));
-      await AsyncStorage.setItem('purchases', JSON.stringify(cart));
     } catch (error) {
       console.log('Error saving purchases:', error);
     }
@@ -102,7 +89,7 @@ const Cart = ({ route, navigation }) => {
       {showTotalPrice && (
         <View>
           <Text style={styles.checkoutTitle}>Thank you for shopping with us!🌟</Text>
-          <Text style={styles.checkoutTitle}>Total Price: ${calculateTotalPrice()}</Text>
+          <Text style={styles.checkoutTitle}>Total Price: ${totalPrice}</Text>
         </View>
       )}
     </View>
